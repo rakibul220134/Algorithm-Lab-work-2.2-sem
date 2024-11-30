@@ -1,78 +1,96 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <cmath>
 using namespace std;
-int cnt1 = 0,cnt2 = 0;
-int binary_search(vector<int> &vec, int element)
-{
-    int high = vec.size() - 1, low = 0;
-    int mid;
-    bool isFound = false;
-    while (low <= high)
-    {
-        mid = (high + low) / 2, cnt1++;
-        if (element == vec[mid])
-        {
-            isFound = true;
-            cnt1++;
-            break;
-        }
-        else if (element > vec[mid])
-        {
-            low = mid - 1;
-            cnt1++;
-        }
-        else
-        {
-            high = mid - 1;
-            cnt1++;
-        }
-    }
-    if (isFound)
-    {
-        return cnt1;
-    }
-    else return -1;
-}
-int linear_search(vector<int>& vec,int element){
-    bool isFound = false;
-    int ind;
-    cnt2++;
-    for (size_t i = 0; i < vec.size(); i++,cnt2++)
-    {
-        if(vec[i] == element){
-            isFound = true;
-            ind = i;
-            cnt2++;
-            break;
-        }
-    }
-    if(isFound){
-        return cnt2;
-    }
-    else
-    {
-        return -1;
-    }
-    
-    
-}
+
 int main()
 {
-    vector<int> vec,temp;
-    int n, element;
-    cout << "Enter the size of the arry : ";
-    cin >> n;
-    for (size_t i = 0; i < n; i++)
+    int arr[] = {2, 4, 6, 7, 8, 9};
+    int size = sizeof(arr) / sizeof(arr[0]);
+    int choice, key;
+
+    cout << "Menu:\n";
+    cout << "1. Linear Search\n";
+    cout << "2. Binary Search\n";
+    cout << "3. Display Time Complexity\n";
+    cout << "Enter your choice: ";
+    cin >> choice;
+
+    switch (choice)
     {
-        cin >> element;
-        vec.push_back(element);
+    case 1:
+    {
+        // Linear Search
+        cout << "Enter the key to search: ";
+        cin >> key;
+        bool found = false;
+
+        for (int i = 0; i < size; i++)
+        {
+            if (key == arr[i])
+            {
+                cout << "Element found at index: " << i << endl;
+                found = true;
+                break;
+            }
+        }
+
+        if (!found)
+            cout << "Element not found" << endl;
     }
-    sort(vec.begin(), vec.end());
-    cout << "Enter the element: ";
-    cin >> element;
-    temp = vec;
-    sort(vec.begin(),vec.end());
-    if(binary_search(vec, element) != -1 || linear_search(temp,element) != -1){
-        
+    break;
+
+    case 2:
+    {
+        // Binary Search
+        cout << "Enter the key to search: ";
+        cin >> key;
+        int l = 0, h = size - 1, mid;
+        bool found = false;
+
+        while (l <= h)
+        {
+            mid = (l + h) / 2;
+
+            if (key == arr[mid])
+            {
+                cout << "Element found at index: " << mid << endl;
+                found = true;
+                break;
+            }
+
+            if (key > arr[mid])
+                l = mid + 1; // Search in the right half
+            else
+                h = mid - 1; // Search in the left half
+        }
+
+        if (!found)
+            cout << "Element not found" << endl;
     }
+    break;
+
+    case 3:
+    {
+        // Display Time Complexity
+        cout << "Time Complexity Analysis:\n\n";
+
+        // Linear Search
+        cout << "1. Linear Search:\n";
+        cout << "   Best Case: O(1)\n";
+        cout << "   Worst Case: O(n) \n\n";
+
+        // Binary Search
+        cout << "2. Binary Search:\n";
+        cout << "   Best Case: O(1) \n";
+        cout << "   Worst Case: O(log n) \n";
+        cout << "   For this array of size " << size << ", Worst Case = log2(" << size
+             << ") = " << log2(size) << " iterations.\n";
+    }
+    break;
+
+    default:
+        cout << "Invalid choice! Please enter 1, 2, or 3." << endl;
+    }
+
     return 0;
 }
